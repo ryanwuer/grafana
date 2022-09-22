@@ -22,6 +22,7 @@ import { getTimeSrv } from '../../features/dashboard/services/TimeSrv';
 import { toggleTheme } from './toggleTheme';
 import { withFocusedPanel } from './withFocusedPanelId';
 import { HelpModal } from '../components/help/HelpModal';
+import { KioskMode } from '../../types';
 
 export class KeybindingSrv {
   reset() {
@@ -122,7 +123,8 @@ export class KeybindingSrv {
       return;
     }
 
-    if (search.kiosk) {
+    // disable exit when using kiosk: iframe
+    if (search.kiosk !== KioskMode.IFRAME) {
       exitKioskMode();
     }
 

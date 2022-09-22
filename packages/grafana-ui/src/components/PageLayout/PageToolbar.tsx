@@ -21,11 +21,24 @@ export interface Props {
   children?: ReactNode;
   className?: string;
   isFullscreen?: boolean;
+  textOnly?: boolean;
 }
 
 /** @alpha */
 export const PageToolbar: FC<Props> = React.memo(
-  ({ title, parent, pageIcon, onGoBack, children, titleHref, parentHref, leftItems, isFullscreen, className }) => {
+  ({
+    title,
+    parent,
+    pageIcon,
+    onGoBack,
+    children,
+    titleHref,
+    parentHref,
+    leftItems,
+    isFullscreen,
+    className,
+    textOnly,
+  }) => {
     const styles = useStyles2(getStyles);
 
     /**
@@ -66,13 +79,22 @@ export const PageToolbar: FC<Props> = React.memo(
         <nav aria-label="Search links" className={styles.navElement}>
           {parent && parentHref && (
             <>
-              <Link
-                aria-label={`Search dashboard in the ${parent} folder`}
-                className={cx(styles.titleText, styles.parentLink, styles.titleLink)}
-                href={parentHref}
-              >
-                {parent} <span className={styles.parentIcon}></span>
-              </Link>
+              {textOnly ? (
+                <div
+                  aria-label={`Search dashboard in the ${parent} folder`}
+                  className={cx(styles.titleText, styles.parentLink, styles.titleLink)}
+                >
+                  {parent} <span className={styles.parentIcon}></span>
+                </div>
+              ) : (
+                <Link
+                  aria-label={`Search dashboard in the ${parent} folder`}
+                  className={cx(styles.titleText, styles.parentLink, styles.titleLink)}
+                  href={parentHref}
+                >
+                  {parent} <span className={styles.parentIcon}></span>
+                </Link>
+              )}
               {titleHref && (
                 <span className={cx(styles.titleText, styles.titleDivider, styles.parentLink)} aria-hidden>
                   /
@@ -83,13 +105,19 @@ export const PageToolbar: FC<Props> = React.memo(
 
           {title && titleHref && (
             <h1 className={styles.h1Styles}>
-              <Link
-                aria-label="Search dashboard by name"
-                className={cx(styles.titleText, styles.titleLink)}
-                href={titleHref}
-              >
-                {title}
-              </Link>
+              {textOnly ? (
+                <div aria-label="Search dashboard by name" className={cx(styles.titleText, styles.titleLink)}>
+                  {title}
+                </div>
+              ) : (
+                <Link
+                  aria-label="Search dashboard by name"
+                  className={cx(styles.titleText, styles.titleLink)}
+                  href={titleHref}
+                >
+                  {title}
+                </Link>
+              )}
             </h1>
           )}
           {title && !titleHref && <h1 className={styles.titleText}>{title}</h1>}
