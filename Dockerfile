@@ -39,6 +39,7 @@ COPY cue.mod cue.mod
 COPY .bingo .bingo
 
 ENV GOPROXY=https://goproxy.cn
+RUN go install github.com/google/wire/cmd/wire@latest && cp /go/bin/wire /go/bin/wire-v0.5.0
 
 RUN go mod verify
 RUN make build-go
