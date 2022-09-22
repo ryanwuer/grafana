@@ -41,7 +41,7 @@ COPY .bingo .bingo
 ENV GOPROXY=https://goproxy.cn
 
 RUN go mod verify
-RUN make build-go
+RUN make --debug build-go
 
 # Final stage
 FROM alpine:3.15
