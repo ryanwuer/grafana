@@ -8,9 +8,9 @@ build:
   stage: build
   variables:
     DOCKER_CONFIG_JSON: $DOCKER_AUTH_CONFIG_INNER
-    GOPROXY: https://goproxy.cn
   script:
     - |
+      export GOPROXY=https://goproxy.cn,direct
       # docker build
       IMAGES="$(jq -r '. | map("-t " + .server + "/" + .pathPrefix + "/" + env.CI_PROJECT_NAME + ":" + env.APP_REVISION) | join(" ")'<<<"$REGISTRIES")"
       eval docker build --network=host "$IMAGES" . || exit 1
