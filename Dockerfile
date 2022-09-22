@@ -20,7 +20,7 @@ COPY emails emails
 ENV NODE_ENV production
 RUN yarn build
 
-FROM golang:1.17-alpine3.13 as go-builder
+FROM golang:1.17.8-alpine3.15 as go-builder
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
@@ -38,9 +38,8 @@ COPY scripts scripts
 COPY cue.mod cue.mod
 COPY .bingo .bingo
 
-RUN go install github.com/google/wire/cmd/wire@latest && cp /go/bin/wire /go/bin/wire-v0.5.0
-
-RUN make build-go
+RUN GOPROXY=https://goproxy.cn go mod verify
+RUN GOPROXY=https://goproxy.cn make build-go
 
 # Final stage
 FROM alpine:3.15
