@@ -30,6 +30,11 @@ export class KeybindingSrv {
   }
 
   initGlobals() {
+    // disable all key event binding when embedded by iframe
+    const search = locationService.getSearchObject();
+    if (search.kiosk === KioskMode.IFRAME) {
+      return;
+    }
     if (locationService.getLocation().pathname !== '/login') {
       this.bind(['?', 'h'], this.showHelpModal);
       this.bind('g h', this.goToHome);
@@ -123,8 +128,7 @@ export class KeybindingSrv {
       return;
     }
 
-    // disable exit when using kiosk: iframe
-    if (search.kiosk !== KioskMode.IFRAME) {
+    if (search.kiosk) {
       exitKioskMode();
     }
 
