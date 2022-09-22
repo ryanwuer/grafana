@@ -87,7 +87,7 @@ gen-go: $(WIRE)
 
 build-go: $(MERGED_SPEC_TARGET) gen-go ## Build all Go binaries.
 	@echo "build go files"
-	GOPROXY=https://goproxy.cn $(GO) run build.go build
+	GOPROXY=https://goproxy.cn,direct $(GO) run build.go build
 
 build-server: ## Build Grafana server.
 	@echo "build server"
