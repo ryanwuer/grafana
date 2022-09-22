@@ -8,6 +8,7 @@ build:
   stage: build
   variables:
     DOCKER_CONFIG_JSON: $DOCKER_AUTH_CONFIG_INNER
+    GOPROXY: https://goproxy.cn
   script:
     - |
       # docker build
