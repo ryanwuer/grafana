@@ -38,8 +38,10 @@ COPY scripts scripts
 COPY cue.mod cue.mod
 COPY .bingo .bingo
 
-RUN GOPROXY=https://goproxy.cn go mod verify
-RUN GOPROXY=https://goproxy.cn make build-go
+ENV GOPROXY=https://goproxy.cn
+
+RUN go mod verify
+RUN make build-go
 
 # Final stage
 FROM alpine:3.15
