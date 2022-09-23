@@ -38,8 +38,6 @@ COPY scripts scripts
 COPY cue.mod cue.mod
 COPY .bingo .bingo
 
-ENV GOPROXY=https://goproxy.cn
-
 RUN go mod verify
 RUN make --debug build-go
 

@@ -1,12 +1,12 @@
 // Libaries
-import React, { FC, PureComponent, ReactNode } from 'react';
+import React, { PureComponent, FC, ReactNode } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 // Utils & Services
 import { playlistSrv } from 'app/features/playlist/PlaylistSrv';
 // Components
 import { DashNavButton } from './DashNavButton';
 import { DashNavTimeControls } from './DashNavTimeControls';
-import { ButtonGroup, ModalsController, PageToolbar, ToolbarButton } from '@grafana/ui';
+import { ButtonGroup, ModalsController, ToolbarButton, PageToolbar } from '@grafana/ui';
 import { locationUtil, textUtil } from '@grafana/data';
 // State
 import { updateTimeZoneForSession } from 'app/features/profile/state/reducers';
@@ -194,11 +194,6 @@ class DashNav extends PureComponent<Props> {
       return [this.renderTimeControls(), tvButton];
     }
 
-    // hide tvButton when embedded in iframe
-    if (kioskMode === KioskMode.IFRAME) {
-      return [this.renderTimeControls()];
-    }
-
     if (canEdit && !isFullscreen) {
       buttons.push(<ToolbarButton tooltip="Add panel" icon="panel-add" onClick={onAddPanel} key="button-panel-add" />);
       buttons.push(
@@ -248,7 +243,7 @@ class DashNav extends PureComponent<Props> {
   }
 
   render() {
-    const { isFullscreen, title, folderTitle, kioskMode } = this.props;
+    const { isFullscreen, title, folderTitle } = this.props;
     const onGoBack = isFullscreen ? this.onClose : undefined;
 
     const titleHref = locationUtil.updateSearchParams(window.location.href, '?search=open');
@@ -263,7 +258,6 @@ class DashNav extends PureComponent<Props> {
         parentHref={parentHref}
         onGoBack={onGoBack}
         leftItems={this.renderLeftActionsButton()}
-        textOnly={kioskMode === KioskMode.IFRAME}
       >
         {this.renderRightActionsButton()}
       </PageToolbar>
