@@ -100,6 +100,12 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
   componentDidMount() {
     this.initDashboard();
     this.forceRouteReloadCounter = (this.props.history.location.state as any)?.routeReloadCounter || 0;
+
+    // listen on history's change and notify queryParams to parent
+    // @ts-ignore
+    this.props.history.listen(() => {
+      window.parent.postMessage(this.props.queryParams, '*');
+    });
   }
 
   componentWillUnmount() {
