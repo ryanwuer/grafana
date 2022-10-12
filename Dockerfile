@@ -20,7 +20,9 @@ COPY emails emails
 ENV NODE_ENV production
 RUN yarn build
 
-FROM golang:1.17.8-alpine3.15 as go-builder
+FROM golang:1.17-alpine3.13 as go-builder
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 RUN apk add --no-cache gcc g++ make
 
@@ -36,8 +38,10 @@ COPY scripts scripts
 COPY cue.mod cue.mod
 COPY .bingo .bingo
 
+ENV GOPROXY=https://goproxy.cn
+
 RUN go mod verify
-RUN make build-go
+RUN make --debug build-go
 
 # Final stage
 FROM alpine:3.15
@@ -57,9 +61,11 @@ ENV PATH="/usr/share/grafana/bin:$PATH" \
 
 WORKDIR $GF_PATHS_HOME
 
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+
 RUN apk add --no-cache ca-certificates bash tzdata musl-utils
-RUN apk add --no-cache openssl ncurses-libs ncurses-terminfo-base --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
-RUN apk upgrade ncurses-libs ncurses-terminfo-base --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
+RUN apk add --no-cache openssl ncurses-libs ncurses-terminfo-base
+RUN apk upgrade ncurses-libs ncurses-terminfo-base
 RUN apk info -vv | sort
 
 COPY conf ./conf

@@ -22,6 +22,7 @@ import { getTimeSrv } from '../../features/dashboard/services/TimeSrv';
 import { toggleTheme } from './toggleTheme';
 import { withFocusedPanel } from './withFocusedPanelId';
 import { HelpModal } from '../components/help/HelpModal';
+import { KioskMode } from '../../types';
 
 export class KeybindingSrv {
   reset() {
@@ -29,6 +30,11 @@ export class KeybindingSrv {
   }
 
   initGlobals() {
+    // disable all key event binding when embedded by iframe
+    const search = locationService.getSearchObject();
+    if (search.kiosk === KioskMode.IFRAME) {
+      return;
+    }
     if (locationService.getLocation().pathname !== '/login') {
       this.bind(['?', 'h'], this.showHelpModal);
       this.bind('g h', this.goToHome);

@@ -30,6 +30,8 @@ export function getKioskMode(queryParam?: UrlQueryValue): KioskMode {
     case '1':
     case true:
       return KioskMode.Full;
+    case 'iframe':
+      return KioskMode.IFRAME;
     default:
       return KioskMode.Off;
   }
