@@ -32,6 +32,8 @@ export function getKioskMode(queryParam?: UrlQueryValue): KioskMode {
       return KioskMode.Full;
     case 'iframe':
       return KioskMode.IFRAME;
+    case 'iframe_date':
+      return KioskMode.IFRAME_DATE;
     default:
       return KioskMode.Off;
   }

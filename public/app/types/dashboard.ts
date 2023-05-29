@@ -67,6 +67,7 @@ export enum KioskMode {
   TV = 'tv',
   Full = 'full',
   IFRAME = 'iframe',
+  IFRAME_DATE = 'iframe_date',
 }
 
 export type GetMutableDashboardModelFn = () => DashboardModel | null;

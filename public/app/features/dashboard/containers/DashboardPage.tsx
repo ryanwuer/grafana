@@ -336,7 +336,9 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
       'panel-in-fullscreen': viewPanel,
     });
     const showSubMenu =
-      !editPanel && (kioskMode === KioskMode.Off || kioskMode === KioskMode.IFRAME) && !this.props.queryParams.editview;
+      !editPanel &&
+      (kioskMode === KioskMode.Off || kioskMode === KioskMode.IFRAME || kioskMode === KioskMode.IFRAME_DATE) &&
+      !this.props.queryParams.editview;
 
     return (
       <div className={containerClassNames}>
@@ -389,7 +391,7 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
  */
 export const getStyles = stylesFactory((theme: GrafanaTheme2, kioskMode) => {
   const contentPadding =
-    kioskMode !== KioskMode.Full && kioskMode !== KioskMode.IFRAME ? theme.spacing(0, 2, 2) : theme.spacing(2);
+    kioskMode !== KioskMode.Full && kioskMode !== KioskMode.IFRAME && kioskMode !== KioskMode.IFRAME_DATE ? theme.spacing(0, 2, 2) : theme.spacing(2);
   return {
     dashboardContainer: css`
       width: 100%;

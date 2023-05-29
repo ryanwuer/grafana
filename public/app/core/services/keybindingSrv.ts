@@ -32,7 +32,7 @@ export class KeybindingSrv {
   initGlobals() {
     // disable all key event binding when embedded by iframe
     const search = locationService.getSearchObject();
-    if (search.kiosk === KioskMode.IFRAME) {
+    if (search.kiosk === KioskMode.IFRAME || search.kiosk === KioskMode.IFRAME_DATE) {
       return;
     }
     if (locationService.getLocation().pathname !== '/login') {
