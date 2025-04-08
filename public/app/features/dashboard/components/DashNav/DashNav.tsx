@@ -194,6 +194,10 @@ class DashNav extends PureComponent<Props> {
       return [this.renderTimeControls(), tvButton];
     }
 
+    if (kioskMode === KioskMode.IFRAME_DATE) {
+      return [this.renderTimeControls()];
+    }
+
     if (canEdit && !isFullscreen) {
       buttons.push(<ToolbarButton tooltip="Add panel" icon="panel-add" onClick={onAddPanel} key="button-panel-add" />);
       buttons.push(
@@ -243,7 +247,7 @@ class DashNav extends PureComponent<Props> {
   }
 
   render() {
-    const { isFullscreen, title, folderTitle } = this.props;
+    const { isFullscreen, title, folderTitle, kioskMode } = this.props;
     const onGoBack = isFullscreen ? this.onClose : undefined;
 
     const titleHref = locationUtil.updateSearchParams(window.location.href, '?search=open');
@@ -251,9 +255,9 @@ class DashNav extends PureComponent<Props> {
 
     return (
       <PageToolbar
-        pageIcon={isFullscreen ? undefined : 'apps'}
-        title={title}
-        parent={folderTitle}
+        pageIcon={isFullscreen || kioskMode === KioskMode.IFRAME_DATE ? undefined : undefined}
+        title={kioskMode === KioskMode.IFRAME_DATE ? '' : title}
+        parent={kioskMode === KioskMode.IFRAME_DATE ? '' : folderTitle}
         titleHref={titleHref}
         parentHref={parentHref}
         onGoBack={onGoBack}
